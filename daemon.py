@@ -62,11 +62,11 @@ class Bridge(object):
                 )
 
         except AuthenticationException:
-            raise Exception("auth failed user:%s ,passwd:%s" %
-                            (data["username"], data["secret"]))
+            raise Exception(
+                f'auth failed user:{data["username"]} ,passwd:{data["secret"]}'
+            )
         except SSHException:
-            raise Exception("could not connect to host:%s:%s" %
-                            (data["hostname"], data["port"]))
+            raise Exception(f'could not connect to host:{data["hostname"]}:{data["port"]}')
 
         self.establish()
 

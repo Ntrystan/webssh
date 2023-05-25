@@ -25,8 +25,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.clients[self._id()] = bridge
 
     def remove_client(self):
-        bridge = self.get_client()
-        if bridge:
+        if bridge := self.get_client():
             bridge.destroy()
             del self.clients[self._id()]
 
@@ -50,15 +49,14 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         if self._is_init_data(client_data):
             if self._check_init_param(client_data.data):
                 bridge.open(client_data.data)
-                logging.info('connection established from: %s' % self._id())
+                logging.info(f'connection established from: {self._id()}')
             else:
                 self.remove_client()
-                logging.warning('init param invalid: %s' % client_data.data)
-        else:
-            if bridge:
-                bridge.trans_forward(client_data.data)
+                logging.warning(f'init param invalid: {client_data.data}')
+        elif bridge:
+            bridge.trans_forward(client_data.data)
 
     def on_close(self):
         self.remove_client()
-        logging.info('client close the connection: %s' % self._id())
+        logging.info(f'client close the connection: {self._id()}')
 
