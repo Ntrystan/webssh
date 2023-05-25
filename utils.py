@@ -10,14 +10,11 @@ _PLATFORM = sys.platform
 def check_ip(ip):
     pattern = re.compile(
         '^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$')
-    return True if pattern.match(ip) else False
+    return bool(pattern.match(ip))
 
 
 def check_port(port):
-    if port and port.isdigit():
-        iport = int(port)
-        return 0 < iport < 65536
-    return False
+    return 0 < int(port) < 65536 if port and port.isdigit() else False
 
 
 class Platform(object):
